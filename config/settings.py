@@ -60,10 +60,13 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": os.getenv("ENGINE_P"),
+        "NAME": os.getenv("NAME_P"),
+        "USER": os.getenv("USER_P"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
     }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
