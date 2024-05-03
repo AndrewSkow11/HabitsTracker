@@ -13,11 +13,10 @@ PERIODIC_CHOICES = {
 class Habit(models.Model):
     user = models.ForeignKey(
         User,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         verbose_name='создатель',
         null=True,
         blank=True,
-
     )
     place = models.CharField(
         max_length=256,
@@ -34,9 +33,10 @@ class Habit(models.Model):
         default=False,
         verbose_name='приятность привычки'
     )
-    related_habit = models.ManyToManyField(
+    related_habit = models.ForeignKey(
         'Habit',
         verbose_name='связанная привычка',
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
@@ -56,4 +56,5 @@ class Habit(models.Model):
     )
 
     def __str__(self):
-        return f'{self.action} ({self.user})'
+        return (f'{self.user} будет {self.action} в {self.time_for_execute}'
+                f' в {self.place} ')
