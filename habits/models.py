@@ -2,14 +2,6 @@ from django.db import models
 
 from users.models import User
 
-# Create your models here.
-PERIODIC_CHOICES = {
-    "EVERY_DAY": "ED",
-    "EVERY_WEEK": "EW",
-    "EVERY_MONTH": "EM",
-}
-
-
 class Habit(models.Model):
     user = models.ForeignKey(
         User,
@@ -43,17 +35,17 @@ class Habit(models.Model):
         null=True,
         blank=True,
     )
-    periodicity = models.CharField(
-        choices=PERIODIC_CHOICES,
-        default='ED'
+    periodicity = models.PositiveSmallIntegerField(
+        default=1,
+        verbose_name='периодичность выполнения (дни)',
     )
     reward = models.CharField(
         max_length=256,
         verbose_name='вознаграждение',
         default='приятное вознаграждение'
     )
-    time_for_execute = models.PositiveSmallIntegerField(
-        verbose_name='время на выполнение',
+    time_duration = models.PositiveSmallIntegerField(
+        verbose_name='время на выполнение в секундах',
         default='60'
     )
     is_public = models.BooleanField(
@@ -62,5 +54,5 @@ class Habit(models.Model):
     )
 
     def __str__(self):
-        return (f'{self.user} будет {self.action} в {self.time_for_execute}'
+        return (f'{self.user} будет {self.action} в {self.time_duration}'
                 f' в {self.place} ')
