@@ -20,18 +20,21 @@ class Habit(models.Model):
     )
     place = models.CharField(
         max_length=256,
+        default='любое место',
         verbose_name='место выполнения'
     )
     time_execute = models.TimeField(
-        verbose_name='время для выполнения'
+        verbose_name='время для выполнения',
+        default='00:00:00'
     )
     action = models.CharField(
         max_length=256,
-        verbose_name='действие'
+        verbose_name='действие',
+        default='новые действие',
     )
     is_nice = models.BooleanField(
         default=False,
-        verbose_name='приятность привычки'
+        verbose_name='приятность привычки',
     )
     related_habit = models.ForeignKey(
         'Habit',
@@ -46,13 +49,16 @@ class Habit(models.Model):
     )
     reward = models.CharField(
         max_length=256,
-        verbose_name='вознаграждение'
+        verbose_name='вознаграждение',
+        default='приятное вознаграждение'
     )
     time_for_execute = models.PositiveSmallIntegerField(
-        verbose_name='время на выполнение'
+        verbose_name='время на выполнение',
+        default='60'
     )
     is_public = models.BooleanField(
-        verbose_name="признак публичности"
+        verbose_name="признак публичности",
+        default=True
     )
 
     def __str__(self):
