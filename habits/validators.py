@@ -69,3 +69,16 @@ class DurationValidatior:
                                   "(не более 120 секунд)!")
 
 
+class PeriodicValidator:
+    """Валидатор проверяет, что За одну неделю необходимо
+    выполнить привычку хотя бы один раз."""
+
+    def __init__(self, field):
+        self.field = field
+
+    def __call__(self, value):
+        periodicity = dict(value).get(self.field)
+
+        if not 1 <= periodicity <= 7:
+            raise ValidationError("Нельзя выполнять привычку реже,"
+                                  " чем 1 раз в 7 дней.")
