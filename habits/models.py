@@ -42,11 +42,12 @@ class Habit(models.Model):
     reward = models.CharField(
         max_length=256,
         verbose_name='вознаграждение',
-        default='приятное вознаграждение'
+        null=True,
+        blank=True,
     )
     time_duration = models.PositiveSmallIntegerField(
         verbose_name='время на выполнение в секундах',
-        default='60'
+        default='60',
     )
     is_public = models.BooleanField(
         verbose_name="признак публичности",
@@ -54,5 +55,7 @@ class Habit(models.Model):
     )
 
     def __str__(self):
-        return (f'{self.user} будет {self.action} в {self.time_duration}'
-                f' в {self.place} ')
+        return (f'Пользователь: {self.user}\n'
+                f'Действие: {self.action}\n'
+                f'Время: {self.time_duration}\n'
+                f'Место: {self.place}')
