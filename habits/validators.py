@@ -1,5 +1,6 @@
 from rest_framework.serializers import ValidationError
 
+
 # 1 - ok - correct
 class RewardHabitValidator:
     """Валидатор проверяет не установлено ли вознаграждение
@@ -17,6 +18,7 @@ class RewardHabitValidator:
             raise ValidationError("Можно добавить либо связанную привычку,"
                                   "либо вознаграждение, но не одновременно!")
 
+
 # 2 ok
 class HabitRelatedIsNiceValidator:
     """Валидатор проверяет, что связанная привычка -
@@ -26,12 +28,11 @@ class HabitRelatedIsNiceValidator:
         self.field1 = field1
 
     def __call__(self, value):
-        related_habit = dict(value).get(self.field1)
-        print(not related_habit.is_nice)
-
-        if not related_habit.is_nice:
-            raise ValidationError("Связанной привычкой может быть только"
-                                  "приятная привычка!")
+        if value:
+            related_habit = dict(value).get(self.field1)
+            if related_habit and not related_habit.is_nice:
+                 raise ValidationError("Связанной привычкой может быть только "
+                                       "приятная привычка!")
 
 
 class NiceHabbitValidator:
@@ -45,12 +46,20 @@ class NiceHabbitValidator:
 
     def __call__(self, value):
         related_habit = dict(value).get(self.field1)
+        print("Связанная привычка", related_habit)
         reward = dict(value).get(self.field2)
+        print("ВОЗНАГРАЖДЕНИЕ", bool(reward))
         is_nice = dict(value).get(self.field3)
+        print("is_nice", is_nice)
 
-        if is_nice and reward and related_habit:
-            raise ValidationError("У приятной привычки не может быть"
-                                  " вознаграждения или связанной привычки!")
+        if is_nice and not bool(reward):
+            raise ValidationError(
+                "У приятной привычки не может быть вознаграждения!")
+        if is_nice and not related_habit:
+            raise ValidationError(
+                "У приятной привычки не может быть связанной привычки"
+            )
+
 
 # 4 - ok
 class DurationValidatior:
@@ -67,6 +76,7 @@ class DurationValidatior:
             raise ValidationError("Превышено время выоленние привычки"
                                   " (не более 120 секунд)!")
 
+
 # 5 - ok correct
 class PeriodicValidator:
     """Валидатор проверяет, что За одну неделю необходимо
@@ -76,8 +86,9 @@ class PeriodicValidator:
         self.field = field
 
     def __call__(self, value):
-        periodicity = dict(value).get(self.field)
-
-        if not 1 <= periodicity <= 7:
-            raise ValidationError("Нельзя выполнять привычку реже,"
-                                  " чем 1 раз в 7 дней.")
+        print(value)
+        # periodicity = dict(value).get(self.field)
+        #
+        # if not 1 <= periodicity <= 7:
+        #     raise ValidationError("Нельзя выполнять привычку реже,"
+        #                           " чем 1 раз в 7 дней.")
