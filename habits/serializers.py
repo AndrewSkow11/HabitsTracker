@@ -4,8 +4,8 @@ from habits.models import Habit
 from habits.validators import (
     RewardHabitValidator,
     HabitRelatedIsNiceValidator,
-    NiceHabbitValidator,
-    DurationValidatior,
+    NiceHabitValidator,
+    DurationValidator,
     PeriodicValidator,
 )
 
@@ -17,8 +17,8 @@ class HabitSerializer(serializers.ModelSerializer):
         validators = [
             RewardHabitValidator("related_habit", "reward"),
             HabitRelatedIsNiceValidator("related_habit"),
-            NiceHabbitValidator("related_habit", "reward",
+            NiceHabitValidator("related_habit", "reward",
                                 "is_nice"),
-            DurationValidatior("time_duration"),
+            DurationValidator("time_duration"),
             PeriodicValidator("periodicity"),
         ]

@@ -35,7 +35,7 @@ class HabitRelatedIsNiceValidator:
                                       "приятная привычка!")
 
 
-class NiceHabbitValidator:
+class NiceHabitValidator:
     """Валидатор проверяет, что у приятной привычки не может
      быть вознаграждения или связанной привычки."""
 
@@ -57,8 +57,8 @@ class NiceHabbitValidator:
 
 
 # 4 - ok
-class DurationValidatior:
-    """Валиадтор проверяет, что
+class DurationValidator:
+    """Валиадатор проверяет, что
      время выполнения должно быть не больше 120 секунд."""
 
     def __init__(self, field):
@@ -81,9 +81,9 @@ class PeriodicValidator:
         self.field = field
 
     def __call__(self, value):
-        print(value)
-        # periodicity = dict(value).get(self.field)
-        #
-        # if not 1 <= periodicity <= 7:
-        #     raise ValidationError("Нельзя выполнять привычку реже,"
-        #                           " чем 1 раз в 7 дней.")
+
+        periodicity = dict(value).get(self.field)
+        if periodicity:
+            if not (1 <= int(periodicity) <= 7):
+                raise ValidationError("Нельзя выполнять привычку реже,"
+                                      " чем 1 раз в 7 дней.")
