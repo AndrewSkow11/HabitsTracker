@@ -87,10 +87,11 @@ class PeriodicValidator:
         self.field = field
 
     def __call__(self, value):
+        print(value)
+        if "periodicity" in dict(value):
+            periodicity = dict(value).get(self.field)
 
-        periodicity = dict(value).get(self.field)
-        if periodicity:
-            if not (1 <= int(periodicity) <= 7):
-                raise ValidationError(
-                    "Нельзя выполнять привычку реже," " чем 1 раз в 7 дней."
-                )
+            if periodicity and periodicity < 1 or periodicity > 7:
+                raise ValidationError("Интервал задания периодичности [1; 7]!")
+            if periodicity == 0:
+                raise ValidationError("Периодичность не может быть задана нулём!")
