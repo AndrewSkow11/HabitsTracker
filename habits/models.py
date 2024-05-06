@@ -59,3 +59,8 @@ class Habit(models.Model):
                 f'Действие: {self.action}\n'
                 f'Время: {self.time_duration}\n'
                 f'Место: {self.place}')
+
+    class Meta:
+        verbose_name = "привычка",
+        verbose_name_plural = "привычки"
+        ordering = ("id", )

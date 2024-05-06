@@ -23,11 +23,3 @@ class HabitSerializer(serializers.ModelSerializer):
             PeriodicValidator("periodicity"),
         ]
 
-        # def create(self, validated_data):
-        #     """Привязка пользователя при создании"""
-        #     user = self.context['request'].user
-        #     habit = Habit(**validated_data)
-        #     habit.user = user
-        #     habit.save()
-        #     return habit
-        #

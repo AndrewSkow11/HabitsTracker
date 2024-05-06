@@ -1,8 +1,12 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from habits.models import Habit
 from habits.paginations import HabitPaginator
+from habits.permissions import IsUser
 from habits.serializers import HabitSerializer
+
+from rest_framework.response import Response
 
 
 class HabitAPIViewSet(ModelViewSet):
@@ -15,16 +19,20 @@ class HabitAPIViewSet(ModelViewSet):
         new_habit.user = self.request.user
         new_habit.save()
 
-    # def get_permissions(self):
-    #     if self.action == 'create':
-    #         self.permission_classes = [IsAuthenticated, ~IsModerator]
-    #     elif self.action == 'list':
-    #         self.permission_classes = [IsAuthenticated, IsOwner | IsModerator]
-    #     elif self.action == 'retrieve':
-    #         self.permission_classes = [IsAuthenticated, IsOwner | IsModerator]
-    #     elif self.action == 'update':
-    #         self.permission_classes = [IsAuthenticated, IsOwner | IsModerator]
-    #     elif self.action == 'destroy':
-    #         self.permission_classes = [IsAuthenticated, IsOwner, ~IsModerator]
-    #     return [permission() for permission in self.permission_classes]
+    def list(self, serializer):
+        queryset = Habit.objects.filter(user=None)
+        serializer = HabitSerializer(queryset, many=True)
+        return Response(serializer.data)
 
+    def get_permissions(self):
+        if self.action == 'create':
+            self.permission_classes = [IsAuthenticated]
+        elif self.action == 'list':
+            self.permission_classes = [IsAuthenticated, IsUser | IsAdminUser]
+        elif self.action == 'retrieve':
+            self.permission_classes = [IsAuthenticated, IsUser | IsAdminUser]
+        elif self.action == 'update':
+            self.permission_classes = [IsAuthenticated, IsUser | IsAdminUser]
+        elif self.action == 'destroy':
+            self.permission_classes = [IsAuthenticated, IsUser]
+        return [permission() for permission in self.permission_classes]
