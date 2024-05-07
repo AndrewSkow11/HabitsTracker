@@ -45,10 +45,11 @@ class HabitAPIViewSet(ModelViewSet):
             self.permission_classes = [IsAuthenticated, IsUser]
         return [permission() for permission in self.permission_classes]
 
+
 class UserHabitListApiView(generics.ListAPIView):
     """Только пользовательские привычки"""
     serializer_class = HabitSerializer
-    permission_classes = [IsAuthenticated, IsUser]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Habit.objects.filter(user=self.request.user)
