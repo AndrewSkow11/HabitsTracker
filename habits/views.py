@@ -12,6 +12,8 @@ from rest_framework.response import Response
 
 from rest_framework.pagination import PageNumberPagination
 
+from habits.tasks import send_message_habit
+
 
 class HabitAPIViewSet(ModelViewSet):
     queryset = Habit.objects.all()
@@ -23,8 +25,13 @@ class HabitAPIViewSet(ModelViewSet):
         new_habit.user = self.request.user
         new_habit.save()
 
+
+
     def list(self, request):
         """Показывает все публичные привычки"""
+        print("вызов функции send message")
+        send_message_habit()
+
         habits = Habit.objects.filter(is_public=True)
         paginator = PageNumberPagination()
         paginator.page_size = 5

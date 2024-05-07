@@ -8,9 +8,7 @@
 1. Создание базы данных
 
 ```commandline
-% psql -U postgres
-postgres=# CREATE DATABASE habits;
-CREATE DATABASE
+psql -U postgres
 ```
 
 2. Установка зависимостей
@@ -22,10 +20,7 @@ pip install -r requirements.txt
 
 4. Создание суперпользователя
 ```commandline
-(venv) % python3 manage.py create_superuser
-Суперпользователь создан
-admin@admin.ru
-1234
+ manage.py create_superuser
 ```
 
 5. Запуск сервера redis

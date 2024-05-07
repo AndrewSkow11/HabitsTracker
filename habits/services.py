@@ -1,45 +1,42 @@
-import os
+from django_celery_beat.models import IntervalSchedule, PeriodicTask
+import json
 from datetime import datetime, timedelta
-
+from config import settings
 import requests
 
-from habits.models import Habit
 
-DAYS_OF_WEEK = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY']
+def create_interval(habit):
+    """ Создаем периодическую задачу """
+
+    schedule, created = IntervalSchedule.objects.get_or_create(
+        every=habit.periodicity,
+        period=IntervalSchedule.DAYS,
+    )
+
+    PeriodicTask.objects.create(
+        interval=schedule,
+        name='Habit',
+        task='habit.tasks.send_message_habit',
+        args=json.dumps(['arg1', 'arg2']),
+        kwargs=json.dumps({
+            'be_careful': True,
+        }),
+        expires=datetime.utcnow() + timedelta(seconds=30)
+    )
 
 
-def send_telegram_message(message, chat_id):
-    token = os.getenv('TELEGRAM_BOT_TOKEN')
-    data = {
-        'chat_id': chat_id,
-        'text': message
-    }
+def create_bot_telegram(chat_id, text):
+    print('Вызов функции create_bot_telegram')
 
-    url = f'https://api.telegram.org/bot{token}/sendMessage'
-    response = requests.post(url, data=data)
-    return response
+    url = 'https://api.telegram.org/bot'
+    token = settings.TOKEN_BOT_TELEGRAM
 
-
-def habit_scheduler():
-    try:
-        current_time = datetime.now().replace(second=0, microsecond=0)
-        current_time_plus_5 = current_time + timedelta(minutes=5)
-
-        current_day = DAYS_OF_WEEK[datetime.today().weekday()]
-
-        habits = Habit.objects.filter(is_pleasant=False, frequency__in=[current_day, 'DAILY'], user__telegram_id__isnull=False)
-        for habit in habits:
-            if habit.time.strftime('%H:%M') == current_time_plus_5.strftime('%H:%M'):
-                chat_id = habit.user.telegram_id
-                message = f'Через 5 минут необходимо выполнять вашу привычку! ' \
-                          f'Вам необходимо выполнить: {habit.action} \n'
-                if habit.reward:
-                    message += f'Вознаграждение: {habit.reward}'
-                elif habit.linked_habit:
-                    message += f'Связанная привычка: {habit.linked_habit.action}'
-                else:
-                    message += f'Вознаграждение или связанная привычка не указаны!'
-                send_telegram_message(message=message, chat_id=chat_id)
-
-    except Exception as e:
-        print(f'Error: {e}')
+    requests.post(
+        url=f'{url}{token}/sendMessage',
+        data={
+            'chat_id': chat_id,
+            'text': text
+        }
+    )
+    print(f'chat_id={chat_id}, text={text}')
+    print('Отправлен запрос на отправку сообщения')
