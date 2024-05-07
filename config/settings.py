@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'rest_framework',
     "rest_framework_simplejwt",
     'drf_spectacular',
+    'django_celery_beat'
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,29 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
 }
+
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+
+# Часовой пояс для работы Celery
+CELERY_TIMEZONE = TIME_ZONE
+
+# Флаг отслеживания выполнения задач
+CELERY_TASK_TRACK_STARTED = True
+
+# Максимальное время на выполнение задачи
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
+CELERY_BEAT_SCHEDULE = {
+    "task-name": {
+        "task": "users.tasks.check_user_activity",  # Путь к задаче
+        # Расписание выполнения задачи (например, каждые 10 минут)
+        # "schedule": timedelta(days=1),
+        # для теста оставляю проверку каждые 5 секунд
+        'schedule': timedelta(seconds=5),
+    },
+}
+
+TELEGRAM_BOT_TOKEN=os.getenv('TELEGRAM_BOT_TOKEN')
