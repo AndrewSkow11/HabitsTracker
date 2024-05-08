@@ -30,7 +30,6 @@ class HabitAPIViewSet(ModelViewSet):
     def list(self, request):
         """Показывает все публичные привычки"""
         print("вызов функции send message")
-        send_message_habit()
 
         habits = Habit.objects.filter(is_public=True)
         paginator = PageNumberPagination()

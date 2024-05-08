@@ -89,7 +89,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "ru"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Moscow"
 
 USE_I18N = True
 
@@ -147,7 +147,7 @@ CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 CELERY_BEAT_SCHEDULE = {
     "task-name": {
-        "task": "users.tasks.check_user_activity",  # Путь к задаче
+        "task": "habits.tasks.send_message_habit",  # Путь к задаче
         # Расписание выполнения задачи (например, каждые 10 минут)
         # "schedule": timedelta(days=1),
         # для теста оставляю проверку каждые 5 секунд
@@ -155,4 +155,4 @@ CELERY_BEAT_SCHEDULE = {
     },
 }
 
-TELEGRAM_BOT_TOKEN=os.getenv('TELEGRAM_BOT_TOKEN')
+TOKEN_BOT_TELEGRAM=os.getenv('TOKEN_BOT_TELEGRAM')
