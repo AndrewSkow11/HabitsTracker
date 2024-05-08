@@ -8,7 +8,6 @@ load_dotenv()
 env_path = Path(".") / ".env"
 load_dotenv(dotenv_path=env_path)
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -71,7 +70,6 @@ DATABASES = {
     }
 }
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -100,7 +98,6 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "users.User"
 
-
 REST_FRAMEWORK = {
     # "DEFAULT_FILTER_BACKENDS": [
     #     "django_filters.rest_framework.DjangoFilterBackend",
@@ -114,8 +111,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated'],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
-
-
 
 # Настройки срока действия токенов
 SIMPLE_JWT = {
@@ -147,12 +142,10 @@ CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 CELERY_BEAT_SCHEDULE = {
     "task-name": {
-        "task": "habits.tasks.send_message_habit",  # Путь к задаче
-        # Расписание выполнения задачи (например, каждые 10 минут)
-        # "schedule": timedelta(days=1),
-        # для теста оставляю проверку каждые 5 секунд
-        'schedule': timedelta(seconds=5),
+        "task": "habits.tasks.send_message_habit",
+        # уведомления с точностью до минуты
+        'schedule': timedelta(seconds=59),
     },
 }
 
-TOKEN_BOT_TELEGRAM=os.getenv('TOKEN_BOT_TELEGRAM')
+TOKEN_BOT_TELEGRAM = os.getenv('TOKEN_BOT_TELEGRAM')
