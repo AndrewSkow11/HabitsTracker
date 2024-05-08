@@ -1,4 +1,3 @@
-from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import generics
@@ -7,8 +6,6 @@ from habits.models import Habit
 from habits.paginations import HabitPaginator
 from habits.permissions import IsUser
 from habits.serializers import HabitSerializer
-
-from rest_framework.response import Response
 
 from rest_framework.pagination import PageNumberPagination
 

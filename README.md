@@ -41,7 +41,7 @@ celery -A config worker --beat --scheduler django --loglevel=info
 
 8. Полезная команда на тестирование соответствия PEP8
 ```commandline
-flake8 . --exclude=venv,env,migrations --ignore=E501
+flake8 . --exclude=venv,env,migrations 
 ```
 
 9. Тестирование 
@@ -53,3 +53,4 @@ coverage run --source='.' manage.py test
 ```commandline
 coverage report
 ```
+

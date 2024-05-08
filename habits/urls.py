@@ -1,6 +1,5 @@
 from rest_framework import routers
 from django.urls import path
-from habits.models import Habit
 from habits.views import HabitAPIViewSet, UserHabitListApiView
 
 router = routers.SimpleRouter()

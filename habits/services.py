@@ -26,8 +26,6 @@ def create_interval(habit):
 
 
 def create_bot_telegram(chat_id, text):
-    print('Вызов функции create_bot_telegram')
-
     url = 'https://api.telegram.org/bot'
     token = settings.TOKEN_BOT_TELEGRAM
 
@@ -38,5 +36,3 @@ def create_bot_telegram(chat_id, text):
             'text': text
         }
     )
-    print(f'chat_id={chat_id}, text={text}')
-    print('Отправлен запрос на отправку сообщения')

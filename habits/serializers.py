@@ -18,8 +18,7 @@ class HabitSerializer(serializers.ModelSerializer):
             RewardHabitValidator("related_habit", "reward"),
             HabitRelatedIsNiceValidator("related_habit"),
             NiceHabitValidator("related_habit", "reward",
-                                "is_nice"),
+                               "is_nice"),
             DurationValidator("time_duration"),
             PeriodicValidator("periodicity"),
         ]
-

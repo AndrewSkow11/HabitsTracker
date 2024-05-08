@@ -93,4 +93,5 @@ class PeriodicValidator:
             if periodicity and periodicity < 1 or periodicity > 7:
                 raise ValidationError("Интервал задания периодичности [1; 7]!")
             if periodicity == 0:
-                raise ValidationError("Периодичность не может быть задана нулём!")
+                raise ValidationError("Периодичность"
+                                      " не может быть задана нулём!")

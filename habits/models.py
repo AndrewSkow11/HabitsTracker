@@ -1,6 +1,6 @@
 from django.db import models
-
 from users.models import User
+
 
 class Habit(models.Model):
     user = models.ForeignKey(
@@ -63,4 +63,4 @@ class Habit(models.Model):
     class Meta:
         verbose_name = "привычка",
         verbose_name_plural = "привычки"
-        ordering = ("id", )
+        ordering = ("id",)
