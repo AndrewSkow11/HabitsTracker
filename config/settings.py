@@ -28,7 +28,9 @@ INSTALLED_APPS = [
     'rest_framework',
     "rest_framework_simplejwt",
     'drf_spectacular',
-    'django_celery_beat'
+    'django_celery_beat',
+    "corsheaders",
+
 ]
 
 MIDDLEWARE = [
@@ -39,6 +41,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -149,3 +154,14 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 TOKEN_BOT_TELEGRAM = os.getenv('TOKEN_BOT_TELEGRAM')
+
+CORS_ALLOWED_ORIGINS = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:8080",
+    "http://127.0.0.1:9000",
+]
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://\w+\.example\.com$",
+]
